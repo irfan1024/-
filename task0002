@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>重新学习的第一个网页</title>
+	<link rel="stylesheet" type="text/css" href="task0002.css">
+	<style type="text/css">
+		h1 {
+	color: blue;	
+}
+h2 {
+	font-size: 14px;
+}
+p {
+	font-size: 12px;
+	color: yellow;
+	background-color: black;
+}
+img {
+	border: 2px solid red;
+}
+	</style>
+</head>
+<body>
+	<h1>MyGithubAccountName</h1>
+	<ul>
+		<li><a href="https://github.com/irfan1024/-/new/master">HomePage</a></li>
+		<li><a href="http://weibo.com/u/5496027968/home">Blog</a></li>
+	</ul>
+	<h2>这是二级标题</h2>
+	<p>这是我的第一个HTML页面，这里有一个文字段落。</p>
+	<img src="computer_off.PNG" alt="无法显示" title="图片">
+</body>
+</html>
