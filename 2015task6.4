@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>6.3</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		.box {
+			display: flex;
+		}
+		.div-a {
+			
+			width: 200px;
+			height: 200px;
+			background-color: red;
+		}
+		.div-b {
+			flex-grow: 1;
+			background-color: blue;
+
+		}
+		.div-c {
+			background-color: yellow;
+			width: 200px;
+			height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="div-a">DIV-A</div>
+		<div class="div-b">DIV-B</div>
+		<div class="div-c">DIV-C</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>6.3</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		.box {
+			
+			position: relative;
+		}
+		.div-a {
+			position: absolute;
+			left: 0;
+
+			width: 200px;
+			height: 200px;
+			background-color: red;
+		}
+		.div-c {
+			position: absolute;
+			right: 0;
+			
+			background-color: yellow;
+			width: 200px;
+			height: 200px;
+
+		}
+		.div-b {
+			height: 200px;
+			margin-left: 200px;
+			margin-right: 200px;
+			background-color: blue;
+
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="div-a">DIV-A</div>
+		
+		<div class="div-c">DIV-C</div>
+		<div class="div-b">DIV-B</div>
+	</div>
+</body>
+</html>
