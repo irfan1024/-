@@ -66,6 +66,17 @@
                     e("input").value = ""
                 }
             }
+            // 删除元素
+
+            var delHtml = (targetName) => {
+                var a = es("li")
+                log("a",a)
+                if (targetName == "leftOut") {
+                    a[0].remove()
+                } else if (targetName == "rightOut") {
+                    a[a.length - 1].remove()
+                }
+            }
             // 点击后效果
             var click = () => {
                 var contain = e(".contain")
@@ -80,9 +91,12 @@
                         inserHtml(inputValue, target.className)
                         data.push(inputValue)
                     } else if (target.className == "leftOut") {
-
+                        var first = data.splice(0, 1)
+                        log("data",data)
+                        delHtml(target.className)
                     } else if (target.className == "rightOut") {
-
+                        var last = data.splice(data.length - 1, 1)
+                        delHtml(target.className)
                     }
                 })
             }
