@@ -40,7 +40,7 @@
             var log = console.log.bind(console)
 
 
-
+            // 左侧入函数
             var leftInsertHtml = function (inputValue) {
                 var a = e(".content")
                 var t = `
@@ -48,7 +48,7 @@
                 `
                 a.insertAdjacentHTML('afterbegin', t)
             }
-
+            // 右侧入函数
             var rightInsertHtml = function (inputValue) {
                 var a = e(".content")
                 var t = `
@@ -66,6 +66,7 @@
                     e("input").value = ""
                 }
             }
+            // 点击后效果
             var click = () => {
                 var contain = e(".contain")
                 var data = []
