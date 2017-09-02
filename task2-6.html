@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>task2-4</title>
+        <style media="screen">
+            .number {
+
+                border: 1px solid black;
+                padding: 10px;
+                background-color: red;
+                list-style: none;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="contain">
+            <textarea class="inputContent" type="text" name="input" placeholder="请输入"></textarea>
+            <button class="leftIn" type="button" name="button">左侧入</button>
+            <button class="rightIn" type="button" name="button">右侧入</button>
+            <button class="leftOut" type="button" name="button">左侧出</button>
+            <button class="rightOut" type="button" name="button">右侧出</button>
+            <ul class="content">
+
+            </ul>
+            <div class="search">
+                <input class="inputSearch" type="text" placeholder="输入查询信息">
+                <button class="searchBut"type="button" name="button">search</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var e = (selector) => document.querySelector(selector)
+            var es = (selector) => document.querySelectorAll(selector)
+            var log = console.log.bind(console)
+
+
+            // 左侧入函数
+            var leftInsertHtml = function (inputValue) {
+                var a = e(".content")
+                var t = `
+                    <li class="number">${inputValue}</li>
+                `
+                a.insertAdjacentHTML('afterbegin', t)
+            }
+            // 右侧入函数
+            var rightInsertHtml = function (inputValue) {
+                var a = e(".content")
+                var t = `
+                    <li class="number">${inputValue}</li>
+                `
+                a.insertAdjacentHTML('beforeend', t)
+            }
+            // 插入函数汇总
+            var inserHtml = (inputValue, targetName) => {
+                if (targetName == "leftIn") {
+                    leftInsertHtml(inputValue)
+                    e("textarea").value = ""
+                } else if (targetName == "rightIn") {
+                    rightInsertHtml(inputValue)
+                    e("textarea").value = ""
+                }
+            }
+            // 删除元素
+
+            var delHtml = (targetName) => {
+                var a = es("li")
+                log("a",a)
+                if (targetName == "leftOut") {
+                    a[0].remove()
+                } else if (targetName == "rightOut") {
+                    a[a.length - 1].remove()
+                }
+            }
+            // 点击后效果
+            var click = () => {
+                var contain = e(".contain")
+                var data = []
+                contain.addEventListener("click", (event) => {
+                    var target = event.target
+                    var textareaValue = e("textarea").value
+                    if (target.className == "leftIn") {
+                        inserHtml(textareaValue, target.className)
+                        data.unshift(textareaValue)
+                    } else if (target.className == "rightIn") {
+                        inserHtml(textareaValue, target.className)
+                        data.push(textareaValue)
+                    } else if (target.className == "leftOut") {
+                        var first = data.splice(0, 1)
+                        log("data",data)
+                        delHtml(target.className)
+                    } else if (target.className == "rightOut") {
+                        var last = data.splice(data.length - 1, 1)
+                        delHtml(target.className)
+                    }
+                })
+            }
+            // 查询函数
+            var searchtext = function () {
+                var a = e(".inputContent")
+                var b = e(".inputSearch")
+                var serach = e(".search")
+                var sreachButton = e(".searchBut")
+
+                sreachButton.addEventListener("click", (event) => {
+                    var target = event.target
+                    var textValue = a.value
+                    var searchValue = b.value
+
+                    if (textValue.includes(searchValue)) {
+                        var arr = textValue.split(`${searchValue}`)
+                        var t = `
+                            <span>${arr[0]}<span style="color: red">${searchValue}</span>${arr[1]}</span>
+                        `
+                        serach.insertAdjacentHTML("beforeend", t)
+                    }
+                })
+
+            }
+            var __main = function () {
+                click()
+                searchtext()
+            }
+            __main()
+        </script>
+    </body>
+</html>
