@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>task2-7</title>
+        <style media="screen">
+            #root {
+                flex-wrap: wrap;
+            }
+            .node {
+                border: 1px solid black;
+                display: flex;
+                /*min-width: 30px;
+                min-height: 30px;*/
+                padding: 20px;
+                margin: 20px;
+                justify-content: space-around;
+                background: white;
+            }
+            button {
+                width: 200px;
+                height: 30px;
+                border: 1px solid lightgray;
+                box-shadow: 1px 1px 1px #aeaeae;
+            }
+            .buttonSelect {
+                display: flex;
+                justify-content: space-around;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="node" id="root">
+            <div class="node">
+                <div class="node">
+                    <div class="node"></div>
+                    <div class="node"></div>
+                </div>
+            </div>
+            <div class="node">
+                <div class="node">
+                    <div class="node"></div>
+                    <div class="node"></div>
+                </div>
+            </div>
+        </div>
+        <div class="buttonSelect">
+            <button class="preorder" type="button" name="button">前序遍历</button>
+            <button class="inorder" type="button" name="button">中序遍历</button>
+            <button class="postorder" type="button" name="button">后序遍历</button>
+        </div>
+    </body>
+    <script type="text/javascript">
+        var e = (selector) => document.querySelector(selector)
+        var es = (selector) => document.querySelectorAll(selector)
+        var log = console.log.bind(console)
+
+        // 改变颜色
+        var setColor = (node, color) => {
+            return function() {
+                node.style.backgroundColor = color
+            }
+        }
+
+        // 遍历函数定义
+        // 前序
+        var preorder = function(node, curtime) {
+            curtime = curtime + 1000
+            setTimeout(setColor(node, "blue"), curtime)
+            setTimeout(setColor(node, "white"), curtime + 1000)
+            log("kjkj", node.childNodes)
+            var len = node.childNodes.length
+            for (var i = 0; i < len; i++) {
+                var nodes = node.childNodes[i]
+                if (nodes.nodeType != 1) {
+                    continue
+                } else {
+                    curtime = preorder(nodes, curtime)
+                }
+            }
+            return curtime
+        }
+        // 中序
+        function inorder(node, curTime)
+        {
+            var len = node.childNodes.length
+            log("len", len)
+            var i
+            for (i = 0; i < len; ++ i) {
+                log("第一个for",node.childNodes[i])
+                log("i",i)
+                if (node.childNodes[i].nodeType === 3) {
+                    continue
+                }
+                curTime = inorder(node.childNodes[i], curTime)
+                break
+            }
+            curTime += 1000
+            setTimeout(setColor(node, "blue"), curTime)
+            setTimeout(setColor(node, "white"), curTime + 1000)
+            for (++ i; i < len; ++ i) {
+                log("i",i)
+                log("第二个for",node.childNodes[i])
+                if (node.childNodes[i].nodeType === 3) {
+                    continue
+                }
+                curTime = inorder(node.childNodes[i], curTime)
+            }
+            return curTime
+        }
+        // 后序
+        var postorder = function(node, curtime) {
+            var len = node.childNodes.length
+            for (var i = 0; i < len; i++) {
+                var nodes = node.childNodes[i]
+                if (nodes.nodeType != 1) {
+                    continue
+                } else {
+                    curtime = postorder(nodes, curtime)
+                }
+            }
+            curtime = curtime + 1000
+            setTimeout(setColor(node, "blue"), curtime)
+            setTimeout(setColor(node, "white"), curtime + 1000)
+            return curtime
+        }
+        // 按钮绑定
+        var buttonListen = function() {
+            var buttonSel = e(".buttonSelect")
+            buttonSel.addEventListener("click", (event) => {
+                var o = e("#root")
+                var target = event.target
+                if (target.className == "preorder") {
+                    preorder(o, 0)
+                } else if (target.className == "inorder") {
+                    inorder(o, 0)
+                } else if (target.className == "postorder") {
+                    postorder(o, 0)
+                }
+            })
+        }
+        var __main = () => {
+            buttonListen()
+        }
+        __main()
+    </script>
+</html>
