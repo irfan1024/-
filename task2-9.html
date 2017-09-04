@@ -72,9 +72,9 @@
             <button class="searchButton">查询</button>
         </div>
         <div class="addOrDel">
-            <button class="butDel">删除节点及子节点</button>
             <input class="input-add" type="text">
             <button class="butAdd">增加子节点</button>
+            <button class="butDel">删除节点及子节点</button>
         </div>
     </body>
     <script type="text/javascript">
@@ -87,12 +87,7 @@
                 node.style.backgroundColor = color
             }
         }
-        // 字体颜色
-        var setfont = (node, color) => {
-            return function() {
-                node.style.color = color
-            }
-        }
+
         // 计时设置颜色
         var timeAndColor = function(node, fircolor, seccolor, curtime) {
             setTimeout(setColor(node, fircolor), curtime)
@@ -212,7 +207,6 @@
         }
         // 增加按钮
         var addHtml = function(target) {
-
             var a = e(".butAdd")
             a.addEventListener("click", (event) => {
                 var addValue = e(".input-add").value
