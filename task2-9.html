@@ -28,14 +28,18 @@
                 display: flex;
                 justify-content: space-around;
             }
+            .search,.addOrDel {
+                margin: 10px;
+                display: inline-block;
+            }
         </style>
     </head>
     <body>
         <div class="node" id="root">
-            <div class="node">插在
-                <div class="node">这里
-                    <div class="node">可以
-                        <div class="node">吗
+            <div class="node">
+                <div class="node">
+                    <div class="node">
+                        <div class="node">
                             <div class="node">你好</div>
                             <div class="node">你知道</div>
                             <div class="node">我的</div>
@@ -157,7 +161,7 @@
                 log("node",node)
                 timeAndColor(node, "blue", "white", curtime)
             }
-            
+
             var len = node.childNodes.length
             for (var i = 0; i < len; i++) {
                 var nodes = node.childNodes[i]
@@ -200,7 +204,7 @@
         }
 
         // 删除按钮
-        var del = function(target) {
+        var delHtml = function(target) {
             var butDel = e(".butDel")
             butDel.addEventListener("click", (event) => {
                 target.remove(1)
@@ -208,12 +212,13 @@
         }
         // 增加按钮
         var addHtml = function(target) {
-            var addValue = e(".input-add").value
-            var t = `
-                <div>${addValue}</div>
-            `
+
             var a = e(".butAdd")
             a.addEventListener("click", (event) => {
+                var addValue = e(".input-add").value
+                var t = `
+                    <div>${addValue}</div>
+                `
                 target.insertAdjacentHTML("beforeend", t)
                 e(".input-add").value = ""
             })
@@ -230,18 +235,18 @@
                     a[i].addEventListener("click", (event) => {
                         var target = event.target
                         target.style.backgroundColor = "green"
-                        del(target)
+                        delHtml(target)
                         addHtml(target)
                     })
                 }
-            }   
+            }
         }
 
         var __main = () => {
             buttonListen()
             searchButton()
             selectN()
-            
+
         }
         __main()
     </script>
