@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>task2-8</title>
+        <style media="screen">
+            #root {
+                flex-wrap: wrap;
+            }
+            .node {
+                border: 1px solid black;
+                display: flex;
+                /*min-width: 30px;
+                min-height: 30px;*/
+                padding: 20px;
+                margin: 20px;
+                transition: 0.2s;
+                justify-content: space-around;
+                background: white;
+            }
+            button {
+                width: 200px;
+                height: 30px;
+                border: 1px solid lightgray;
+                box-shadow: 1px 1px 1px #aeaeae;
+            }
+            .buttonSelect {
+                display: flex;
+                justify-content: space-around;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="node" id="root">
+            <div class="node">插在
+                <div class="node">这里
+                    <div class="node">可以
+                        <div class="node">吗
+                            <div class="node">你好</div>
+                            <div class="node">你知道</div>
+                            <div class="node">我的</div>
+                        </div>
+                    </div>
+                    <div class="node">
+                        <div class="node">
+                            <div class="node">哈哈哈</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="node">
+                <div class="node">
+                    <div class="node">
+                        <div class="node">你</div>
+                        <div class="node">不知道</div>
+                    </div>
+                    <div class="node">啊</div>
+                </div>
+            </div>
+        </div>
+        <div class="buttonSelect">
+            <button class="preorder" type="button" name="button">前序遍历</button>
+            <button class="inorder" type="button" name="button">中序遍历</button>
+            <button class="postorder" type="button" name="button">后序遍历</button>
+        </div>
+        <div class="search">
+            <input class="inputSearch" type="text">
+            <button class="searchButton">查询</button>
+        </div>
+        <div class="addOrDel">
+            <button class="butDel">删除节点及子节点</button>
+            <input class="input-add" type="text">
+            <button class="butAdd">增加子节点</button>
+        </div>
+    </body>
+    <script type="text/javascript">
+        var e = (selector) => document.querySelector(selector)
+        var es = (selector) => document.querySelectorAll(selector)
+        var log = console.log.bind(console)
+        // 改变颜色
+        var setColor = (node, color) => {
+            return function() {
+                node.style.backgroundColor = color
+            }
+        }
+        // 字体颜色
+        var setfont = (node, color) => {
+            return function() {
+                node.style.color = color
+            }
+        }
+        // 计时设置颜色
+        var timeAndColor = function(node, fircolor, seccolor, curtime) {
+            setTimeout(setColor(node, fircolor), curtime)
+            setTimeout(setColor(node, seccolor), curtime + 1000)
+        }
+        // 遍历函数定义
+        // 前序
+        var preorder = function(node, curtime) {
+            curtime = curtime + 1000
+            timeAndColor(node, "blue", "white", curtime)
+            var len = node.childNodes.length
+            for (var i = 0; i < len; i++) {
+                var nodes = node.childNodes[i]
+                if (nodes.nodeType != 1) {
+                    continue
+                } else {
+                    curtime = preorder(nodes, curtime)
+                }
+            }
+            return curtime
+        }
+        // 中序
+        function inorder(node, curTime)
+        {
+            var len = node.childNodes.length
+            log("len", len)
+            var i
+            for (i = 0; i < len; ++ i) {
+                if (node.childNodes[i].nodeType === 3) {
+                    continue
+                }
+                curTime = inorder(node.childNodes[i], curTime)
+                break
+            }
+            curTime += 1000
+            timeAndColor(node, "blue", "white", curTime)
+            for (++ i; i < len; ++ i) {
+                if (node.childNodes[i].nodeType === 3) {
+                    continue
+                }
+                curTime = inorder(node.childNodes[i], curTime)
+            }
+            return curTime
+        }
+        // 后序
+        var postorder = function(node, curtime) {
+            var len = node.childNodes.length
+            for (var i = 0; i < len; i++) {
+                var nodes = node.childNodes[i]
+                if (nodes.nodeType != 1) {
+                    continue
+                } else {
+                    curtime = postorder(nodes, curtime)
+                }
+            }
+            curtime = curtime + 1000
+            timeAndColor(node, "blue", "white", curtime)
+            return curtime
+        }
+        // 查询遍历
+        var searchorder = function(node, curtime) {
+            curtime = curtime + 1000
+            if (node.innerHTML == e(".inputSearch").value) {
+                timeAndColor(node, "red", "white", curtime)
+            } else {
+                log("node",node)
+                timeAndColor(node, "blue", "white", curtime)
+            }
+            
+            var len = node.childNodes.length
+            for (var i = 0; i < len; i++) {
+                var nodes = node.childNodes[i]
+                if (nodes.nodeType != 1) {
+                    continue
+                } else {
+                    curtime = searchorder(nodes, curtime)
+                }
+            }
+            return curtime
+        }
+
+
+
+        // 按钮绑定
+        // 遍历按钮
+        var buttonListen = function() {
+            var buttonSel = e(".buttonSelect")
+            buttonSel.addEventListener("click", (event) => {
+                var o = e("#root")
+                var target = event.target
+                if (target.className == "preorder") {
+                    preorder(o, 0)
+                } else if (target.className == "inorder") {
+                    inorder(o, 0)
+                } else if (target.className == "postorder") {
+                    postorder(o, 0)
+                }
+            })
+        }
+
+        // 查询按钮
+        var searchButton = function() {
+            var a = e(".searchButton")
+            a.addEventListener("click", (event) => {
+                var target = event.target
+                var o = e("#root")
+                searchorder(o, 0)
+            })
+        }
+
+        // 删除按钮
+        var del = function(target) {
+            var butDel = e(".butDel")
+            butDel.addEventListener("click", (event) => {
+                target.remove(1)
+            })
+        }
+        // 增加按钮
+        var addHtml = function(target) {
+            var addValue = e(".input-add").value
+            var t = `
+                <div>${addValue}</div>
+            `
+            var a = e(".butAdd")
+            a.addEventListener("click", (event) => {
+                target.insertAdjacentHTML("beforeend", t)
+                e(".input-add").value = ""
+            })
+        }
+
+        // 选中节点,改变颜色
+        var selectN = function() {
+            var rootOfDiv = e("#root")
+            var a = rootOfDiv.childNodes
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].nodeType != 1) {
+                    continue
+                } else {
+                    a[i].addEventListener("click", (event) => {
+                        var target = event.target
+                        target.style.backgroundColor = "green"
+                        del(target)
+                        addHtml(target)
+                    })
+                }
+            }   
+        }
+
+        var __main = () => {
+            buttonListen()
+            searchButton()
+            selectN()
+            
+        }
+        __main()
+    </script>
+</html>
