@@ -36,14 +36,14 @@
                 <div class="node">
                     <div class="node">
                         <div class="node">
-                            <div class="node"></div>
-                            <div class="node"></div>
-                            <div class="node"></div>
+                            <div class="node">你好</div>
+                            <div class="node">你知道</div>
+                            <div class="node">我的</div>
                         </div>
                     </div>
                     <div class="node">
                         <div class="node">
-                            <div class="node"></div>
+                            <div class="node">哈哈哈</div>
                         </div>
                     </div>
                 </div>
@@ -51,10 +51,10 @@
             <div class="node">
                 <div class="node">
                     <div class="node">
-                        <div class="node"></div>
-                        <div class="node"></div>
+                        <div class="node">你</div>
+                        <div class="node">不知道</div>
                     </div>
-                    <div class="node"></div>
+                    <div class="node">啊</div>
                 </div>
             </div>
         </div>
@@ -63,26 +63,34 @@
             <button class="inorder" type="button" name="button">中序遍历</button>
             <button class="postorder" type="button" name="button">后序遍历</button>
         </div>
+        <div class="search">
+            <input class="inputSearch" type="text">
+            <button class="searchButton">查询</button>
+        </div>
     </body>
     <script type="text/javascript">
         var e = (selector) => document.querySelector(selector)
         var es = (selector) => document.querySelectorAll(selector)
         var log = console.log.bind(console)
-
         // 改变颜色
         var setColor = (node, color) => {
             return function() {
                 node.style.backgroundColor = color
             }
         }
-
+        // 字体颜色
+        var setfont = (node, color) => {
+            return function() {
+                node.style.color = color
+            }
+        }
         // 遍历函数定义
         // 前序
         var preorder = function(node, curtime) {
             curtime = curtime + 1000
             setTimeout(setColor(node, "blue"), curtime)
             setTimeout(setColor(node, "white"), curtime + 1000)
-            log("kjkj", node.childNodes)
+            // log("kjkj", node.childNodes)
             var len = node.childNodes.length
             for (var i = 0; i < len; i++) {
                 var nodes = node.childNodes[i]
@@ -101,8 +109,8 @@
             log("len", len)
             var i
             for (i = 0; i < len; ++ i) {
-                log("第一个for",node.childNodes[i])
-                log("i",i)
+                // log("第一个for",node.childNodes[i])
+                // log("i",i)
                 if (node.childNodes[i].nodeType === 3) {
                     continue
                 }
@@ -113,8 +121,8 @@
             setTimeout(setColor(node, "blue"), curTime)
             setTimeout(setColor(node, "white"), curTime + 1000)
             for (++ i; i < len; ++ i) {
-                log("i",i)
-                log("第二个for",node.childNodes[i])
+                // log("i",i)
+                // log("第二个for",node.childNodes[i])
                 if (node.childNodes[i].nodeType === 3) {
                     continue
                 }
@@ -138,6 +146,34 @@
             setTimeout(setColor(node, "white"), curtime + 1000)
             return curtime
         }
+        // 查询遍历
+        var searchorder = function(node, curtime) {
+            curtime = curtime + 1000
+            if (node.innerHTML == e(".inputSearch").value) {
+                log("nodes.innerHTML",node.innerHTML)
+                log('e(".inputSearch").value',e(".inputSearch").value)
+                setTimeout(setColor(node, "red"), curtime)
+                setTimeout(setColor(node, "white"), curtime + 1000)
+            } else {
+                setTimeout(setColor(node, "blue"), curtime)
+                setTimeout(setColor(node, "white"), curtime + 1000)
+            }
+            
+            // log("kjkj", node.childNodes)
+            var len = node.childNodes.length
+            for (var i = 0; i < len; i++) {
+                var nodes = node.childNodes[i]
+                if (nodes.nodeType != 1) {
+                    continue
+                } else {
+                    curtime = searchorder(nodes, curtime)
+                }
+            }
+            return curtime
+        }
+
+
+
         // 按钮绑定
         var buttonListen = function() {
             var buttonSel = e(".buttonSelect")
@@ -153,8 +189,17 @@
                 }
             })
         }
+        var searchButton = function() {
+            var a = e(".searchButton")
+            a.addEventListener("click", (event) => {
+                var target = event.target
+                var o = e("#root")
+                searchorder(o, 0)
+            })
+        }
         var __main = () => {
             buttonListen()
+            searchButton()
         }
         __main()
     </script>
