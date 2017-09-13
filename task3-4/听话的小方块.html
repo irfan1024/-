@@ -8,13 +8,19 @@
                 padding: 0;
                 margin: 0;
             }
+            .main {
+                width: 1000px;
+                height: 960px;
+                margin: 0 auto;
+            }
             .contain {
                 width: 500px;
                 height: 500px;
                 border: 3px solid black;
-                position: relative;
+                position: absolute;
                 margin: 0 auto;
                 top: 200px;
+                left: 55px;
             }
             .hg {
                 height: 49px;
@@ -41,29 +47,141 @@
                 outline: 1px solid black;
                 border-top: 5px solid blue;
                 position: absolute;
-                top: -1px;
-                left: -1px;
+                /*transform: rotate(90deg);*/
+            }
+            .func {
+                position: absolute;
+                bottom: 150px;
+                left: 100px;
+            }
+            .button {
+                padding: 5px 10px;
+            }
+            .hg-number {
+                position: absolute;
+                top: 170px;
+                left: 50px;
+                font-size: 22px;
+            }
+            .hg-number span {
+                padding: 0 12px;
+            }
+            .uu-number {
+                position: absolute;
+                top: 197px;
+                left: 10px;
+                font-size: 22px;
+            }
+            .uu-number p {
+                margin: 20px 0;
+                text-align: center;
             }
         </style>
     </head>
     <body>
-        <div class="contain">
-            <div class="contain-hg">
-                <div class="hg"></div>
-                <div class="hg"></div>
-                <div class="hg"></div>
-                <div class="hg"></div>
-                <div class="hg"></div>
-                <div class="hg"></div>
-                <div class="hg"></div>
-                <div class="hg"></div>
-                <div class="hg"></div>
-                <div class="hg"></div>
+        <div class="main">
+            <div class="hg-number">
+                <span class="hg-span">10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span>
             </div>
-            <div class="contain-uu">
-                <div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div>
+            <div class="uu-number">
+                <p class="hg-p">10</p>
+                <p class="hg-p">20</p>
+                <p class="hg-p">30</p>
+                <p class="hg-p">40</p>
+                <p class="hg-p">50</p>
+                <p class="hg-p">60</p>
+                <p class="hg-p">70</p>
+                <p class="hg-p">80</p>
+                <p class="hg-p">90</p>
+                <p class="hg-p">100</p>
             </div>
-            <div class="xcfhky"></div>
+            <div class="contain">
+                <div class="contain-hg">
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                    <div class="hg"></div>
+                </div>
+                <div class="contain-uu">
+                    <div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div><div class="uu"></div>
+                </div>
+                <div class="xcfhky" style="top:50px;left:100px;transform:rotate3d(0, 0, 0deg);"data-direct="1" data-totle="4"></div>
+            </div>
+            <div class="func">
+                <input type="text">
+                <button class="button" type="button" name="button">执行</button>
+            </div>
         </div>
+
     </body>
+    <script type="text/javascript">
+        var log = console.log.bind(console)
+        var e = (selector) => document.querySelector(selector)
+        var es = (selector) => document.querySelectorAll(selector)
+
+        // 判定边界函数
+        var judge = () => {
+
+        }
+        // 执行函数
+        var go = () => {
+            var button = e(".button")
+            var square = e(".xcfhky")
+            var i = 1
+            var k = 1
+            // var obj = {
+            //     GO :
+            // }
+            button.addEventListener('click', (event) => {
+                var uuru = e("input")
+                var value = uuru.value
+                var direct = Number(square.dataset.direct)
+                var totle = Number(square.dataset.totle)
+                var oldTop = square.style.top.split("px")[0]
+                var oldLeft = square.style.left.split("px")[0]
+                if (value == "GO") {
+                    log("direct",direct)
+                    if (direct == "1") {
+                        // 1代表向上
+                        log(1)
+                        square.style.top = `${Number(oldTop) - 50}px`
+                    } else if (direct == "2") {
+                        // 2代表向右
+                        log(2)
+                        square.style.left = `${Number(oldLeft) + 50}px`
+                    } else if (direct == "3") {
+                        // 3代表向下
+                        log(3)
+                        square.style.top = `${Number(oldTop) + 50}px`
+                    } else if (direct == "0") {
+                        // 4代表向左
+                        log(0)
+                        square.style.left = `${Number(oldLeft) - 50}px`
+                    }
+                } else if (value == "TUN LEF") {
+                    square.dataset.direct = `${(totle + direct + 3) % totle}`
+                    square.style.transform = `rotate3d(0, 0, 1, ${i * (-90)}deg)`
+                    i = i + 1
+                } else if (value == "TUN RIG") {
+                    square.dataset.direct = `${(totle + direct + 3) % totle}`
+                    square.style.transform = `rotate3d(0, 0, 1, ${k * (90)}deg)`
+                    k = k + 1
+                } else if (value == "TUN BAC") {
+                    square.dataset.direct = (totle + direct + 2) % totle
+                    square.style.transform = `rotate3d(0, 0, 1, ${k * (180)}deg)`
+                    k = k + 1
+                }
+            })
+        }
+        var __main = () => {
+            go()
+        }
+        __main()
+    </script>
 </html>
